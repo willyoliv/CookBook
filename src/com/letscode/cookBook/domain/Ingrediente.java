@@ -24,4 +24,24 @@ public class Ingrediente {
     public TipoMedida getTipoQuantidade() {
         return tipoQuantidade;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%.3f %s %s", quantidade, tipoQuantidade, nome);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ingrediente that = (Ingrediente) o;
+
+        return nome.equals(that.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
+    }
 }

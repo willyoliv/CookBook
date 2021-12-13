@@ -59,6 +59,21 @@ public class Receita {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Receita receita = (Receita) o;
+
+        return nome.equals(receita.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
+    }
+
+    @Override
     public String toString() {
         int segundos = tempoPreparo % 60;
         int minutos = tempoPreparo > 60 ? tempoPreparo % (60*60) : 0;

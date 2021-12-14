@@ -2,13 +2,22 @@ package com.letscode.cookBook.domain;
 
 import com.letscode.cookBook.enums.Categoria;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Receita {
     private String nome;
     private Categoria categoria;
     private int tempoPreparo;
     private Rendimento rendimento;
-    private Ingrediente[] ingredientes;
+    private List<Ingrediente> ingredientes;
     private String[] modoPreparo;
+
+    public Receita(String nome, Categoria categoria) {
+        this.ingredientes = new ArrayList<>();
+        this.nome = nome;
+        this.categoria = categoria;
+    }
 
     public String getNome() {
         return nome;
@@ -42,12 +51,14 @@ public class Receita {
         this.rendimento = rendimento;
     }
 
-    public Ingrediente[] getIngredientes() {
+    public List<Ingrediente> getIngredientes() {
         return ingredientes;
     }
 
     public void setIngredientes(Ingrediente[] ingredientes) {
-        this.ingredientes = ingredientes;
+        for (Ingrediente item : ingredientes) {
+            this.ingredientes.add(item);
+        }
     }
 
     public String[] getModoPreparo() {

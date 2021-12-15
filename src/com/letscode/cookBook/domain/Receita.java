@@ -68,4 +68,30 @@ public class Receita {
     public void setModoPreparo(String[] modoPreparo) {
         this.modoPreparo = modoPreparo;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Receita receita = (Receita) o;
+
+        return nome.equals(receita.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        int segundos = tempoPreparo % 60;
+        int minutos = tempoPreparo > 60 ? tempoPreparo % (60*60) : 0;
+        int horas = tempoPreparo > 60*60 ? tempoPreparo % (60*60*24) : 0;
+        String tempo = horas > 0 ? horas + " horas " : "";
+        tempo += minutos > 0 ? minutos + " minutos " : "";
+        tempo += segundos > 0 ? segundos + " segundos " : "";
+        return String.format("%s%n\t%s%n%nRendimento: %s%nTempo: %s%nIngredientes:%n%s%nModo de preparo:%n%s", nome, categoria, rendimento, tempo, ingredientes, modoPreparo);
+    }
 }

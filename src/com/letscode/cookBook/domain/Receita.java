@@ -3,6 +3,7 @@ package com.letscode.cookBook.domain;
 import com.letscode.cookBook.enums.Categoria;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Receita {
@@ -12,6 +13,15 @@ public class Receita {
     private Rendimento rendimento;
     private List<Ingrediente> ingredientes;
     private String[] modoPreparo;
+
+    public Receita(String nome, Categoria categoria, int tempoPreparo, Rendimento rendimento, List<Ingrediente> ingredientes, String[] modoPreparo) {
+        this.nome = nome;
+        this.categoria = categoria;
+        this.tempoPreparo = tempoPreparo;
+        this.rendimento = rendimento;
+        this.ingredientes = ingredientes;
+        this.modoPreparo = modoPreparo;
+    }
 
     public Receita(String nome, Categoria categoria) {
         this.ingredientes = new ArrayList<>();
@@ -92,6 +102,6 @@ public class Receita {
         String tempo = horas > 0 ? horas + " horas " : "";
         tempo += minutos > 0 ? minutos + " minutos " : "";
         tempo += segundos > 0 ? segundos + " segundos " : "";
-        return String.format("%s%n\t%s%n%nRendimento: %s%nTempo: %s%nIngredientes:%n%s%nModo de preparo:%n%s", nome, categoria, rendimento, tempo, ingredientes, modoPreparo);
+        return String.format("Nome: %s%n\tCategoria: %s%nRendimento: %s%nTempo: %s%nIngredientes:%n\t%s%nModo de preparo:%n\t%s", nome, categoria, rendimento, tempo, ingredientes, Arrays.toString(modoPreparo));
     }
 }

@@ -7,14 +7,15 @@ import com.letscode.cookBook.enums.Categoria;
 import java.util.Scanner;
 
 public class CatalogoView {
-//    private final Receita NONE_FOUND = new Receita("Nenhuma receita encontrada", Categoria.PRATO_UNICO);
     private Receita receita;
     Catalogo controller;
-    private int curIndex = -1;
+    private int curIndex;
     private NovaReceitaView novaReceitaView;
 
     public CatalogoView() {
         this.novaReceitaView = new NovaReceitaView();
+        this.controller = new Catalogo();
+        this.curIndex = controller.getSizeCatalogo() - 1;
     }
 
     private void showHeader() {
@@ -32,20 +33,22 @@ public class CatalogoView {
     }
 
     private void showAnterior() {
-        if (curIndex > 0) {
+        if (curIndex > 0 && controller.getSizeCatalogo() - 1 > 0) {
             this.receita = controller.getReceita(curIndex - 1);
-            if (receita != null) curIndex--;
+            curIndex--;
         }
     }
 
     private void showSeguinte() {
-        this.receita = controller.getReceita(curIndex + 1);
-        if (receita != null) curIndex++;
+        if(curIndex + 1 <= controller.getSizeCatalogo() - 1) {
+            this.receita = controller.getReceita(curIndex + 1);
+            curIndex++;
+        }
     }
 
     private void add() {
-//        System.out.println("Add nova receita!");
-        this.novaReceitaView.showCadastroNovaReceita();
+        this.receita = this.novaReceitaView.showCadastroNovaReceita();
+        this.curIndex =  this.controller.add(this.receita);
         System.out.println("Cadastro realizado");
 
     }
@@ -53,9 +56,20 @@ public class CatalogoView {
     private void del() {
         if (curIndex >= 0) {
             controller.del(receita.getNome());
+            if (controller.getSizeCatalogo() == 0) {
+                this.receita = null;
+                this.curIndex = controller.getSizeCatalogo() - 1;
+            } {
+                this.receita = controller.getReceita(0);
+                this.curIndex = 0;
+            }
         }
     }
 
+    private void searchReceita() {
+        String nome = getTextoValido("Qual o nome da receita?");
+        this.receita = controller.getReceita(nome);
+    }
     public void show() {
         showHeader();
         String option;
@@ -76,7 +90,7 @@ public class CatalogoView {
                     del();
                     break;
                 case "S":
-                    //TODO: Implement Search
+                    searchReceita();
                     break;
                 default:
                     ScreenUtil.printTextLine("Opção inválida", 80);
@@ -86,7 +100,11 @@ public class CatalogoView {
     }
 
     private void showMenu() {
-//        showReceita(receita == null ? NONE_FOUND : receita);
+        if (receita != null) {
+            ScreenUtil.printTextLine("", 80, true, '=');
+            ScreenUtil.printTextLine("Receita", 80, true);
+            showReceita(this.receita);
+        }
         ScreenUtil.printTextLine("", 80, true, '=');
         ScreenUtil.printTextLine("P: Receita anterior", 80, true);
         ScreenUtil.printTextLine("N: Receita seguinte", 80, true);
@@ -96,4 +114,15 @@ public class CatalogoView {
         ScreenUtil.printTextLine("", 80, true, '=');
         ScreenUtil.printTextLine("#: ", 80);
     }
+
+    private String getTextoValido(String pergunta) {
+        System.out.println(pergunta);
+        String nome = new Scanner(System.in).nextLine();
+        if (nome.isBlank()) {
+            System.out.println("Texto inválido!");
+            return getTextoValido(pergunta);
+        }
+        return nome;
+    }
+
 }

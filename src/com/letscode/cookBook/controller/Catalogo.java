@@ -13,12 +13,14 @@ public class Catalogo {
         receitas = new ArrayList<>();
     }
 
-    public void add(Receita nova) {
+    public int add(Receita nova) {
         if (nova != null && !nova.getNome().isBlank()) {
             if (!receitas.contains(nova)) {
                 receitas.add(nova);
+                return receitas.size() - 1;
             }
         }
+        return receitas.size() - 1;
     }
 
     public void del(String nome) {
@@ -51,5 +53,9 @@ public class Catalogo {
 
         int index = new Random().nextInt(receitas.size());
         return getReceita(index);
+    }
+
+    public int getSizeCatalogo() {
+        return this.receitas.size();
     }
 }

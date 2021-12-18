@@ -2,7 +2,6 @@ package com.letscode.cookBook.view;
 
 import com.letscode.cookBook.controller.Catalogo;
 import com.letscode.cookBook.domain.Receita;
-import com.letscode.cookBook.enums.Categoria;
 
 import java.util.Scanner;
 
@@ -11,11 +10,13 @@ public class CatalogoView {
     Catalogo controller;
     private int curIndex;
     private NovaReceitaView novaReceitaView;
+    private Scanner scanner;
 
     public CatalogoView() {
         this.novaReceitaView = new NovaReceitaView();
         this.controller = new Catalogo();
         this.curIndex = controller.getSizeCatalogo() - 1;
+        this.scanner = new Scanner(System.in);
     }
 
     private void showHeader() {
@@ -75,7 +76,8 @@ public class CatalogoView {
         String option;
         do {
             showMenu();
-            option = new Scanner(System.in).next();
+            this.scanner = new Scanner(System.in);
+            option = this.scanner.next();
             switch (option.toUpperCase()) {
                 case "P":
                     showAnterior();

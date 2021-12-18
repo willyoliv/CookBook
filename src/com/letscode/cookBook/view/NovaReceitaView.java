@@ -14,9 +14,6 @@ import java.util.Scanner;
 
 public class NovaReceitaView {
     Scanner scanner;
-    Receita receita;
-    NovaReceitaView novaReceitaView;
-    String nome;
 
     public NovaReceitaView() {
         this.scanner = new Scanner(System.in);
@@ -31,24 +28,24 @@ public class NovaReceitaView {
         int categoria = 0;
         boolean isNumeroInvalido = true;
         while (isNumeroInvalido) {
+            System.out.println("Qual a categoria da receita?");
+            for (Categoria cat : Categoria.values()) {
+                System.out.printf("%d - %s%n", cat.ordinal(), cat.name());
+            }
             try {
-                System.out.println("Qual a categoria da receita?");
-                for (Categoria cat : Categoria.values()) {
-                    System.out.printf("%d - %s | ", cat.ordinal(), cat.name());
-                }
-                System.out.println("");
-                categoria = new Scanner(System.in).nextInt();
-                isNumeroInvalido = false;
+                this.scanner = new Scanner(System.in);
+                categoria = this.scanner.nextInt();
             } catch (InputMismatchException inputMismatchException) {
                 System.out.println("Caracter informado não corresponde a um número, tente novamente!");
             }
+            if (categoria >= 0 && categoria < Categoria.values().length) {
+                isNumeroInvalido = false;
+            } else {
+                System.out.println("Tipo de rendimento inválido!");
+                System.out.println("");
+            }
         }
-        if (categoria < 0 || categoria >= Categoria.values().length) {
-            System.out.println("Categoria inválida!");
-            return askCategoria();
-        } else {
-            return Categoria.values()[categoria];
-        }
+        return Categoria.values()[categoria];
     }
 
     private int askTempoPreparo() {
@@ -62,20 +59,21 @@ public class NovaReceitaView {
         int tipo = 0;
         boolean isNumeroInvalido = true;
         while (isNumeroInvalido) {
+            System.out.println("Qual a categoria da receita?");
+            for (TipoRendimento tipoRendimento : TipoRendimento.values()) {
+                System.out.printf("%d - %s %n", tipoRendimento.ordinal(), tipoRendimento.name());
+            }
             try {
-                System.out.println("Qual a categoria da receita?");
-                for (TipoRendimento tipoRendimento : TipoRendimento.values()) {
-                    System.out.printf("%d - %s | ", tipoRendimento.ordinal(), tipoRendimento.name());
-                }
-                System.out.println("");
-                tipo = new Scanner(System.in).nextInt();
-                if (tipo >= 0 && tipo < TipoRendimento.values().length) {
-                    isNumeroInvalido = false;
-                } else {
-                    System.out.println("TipoRendimento inválido!");
-                }
+                this.scanner = new Scanner(System.in);
+                tipo = this.scanner.nextInt();
             } catch (InputMismatchException inputMismatchException) {
                 System.out.println("Caracter informado não corresponde a um número, tente novamente!");
+            }
+            if (tipo >= 0 && tipo < TipoRendimento.values().length) {
+                isNumeroInvalido = false;
+            } else {
+                System.out.println("Tipo de rendimento inválido!");
+                System.out.println("");
             }
         }
         TipoRendimento tipoRendimento = TipoRendimento.values()[tipo];
@@ -93,20 +91,21 @@ public class NovaReceitaView {
             int tipoMedida = 0;
             boolean isNumeroInvalido = true;
             while (isNumeroInvalido) {
+                System.out.println("Qual o tipo de medida do ingrediente?");
+                for (TipoMedida tipoMedidaItem : TipoMedida.values()) {
+                    System.out.printf("%d - %s%n", tipoMedidaItem.ordinal(), tipoMedidaItem.name());
+                }
                 try {
-                    System.out.println("Qual o tipo de medida do ingrediente?");
-                    for (TipoMedida tipoMedidaItem : TipoMedida.values()) {
-                        System.out.printf("%d - %s | ", tipoMedidaItem.ordinal(), tipoMedidaItem.name());
-                    }
-                    System.out.println("");
-                    tipoMedida = new Scanner(System.in).nextInt();
-                    if (tipoMedida >= 0 && tipoMedida < TipoMedida.values().length) {
-                        isNumeroInvalido = false;
-                    } else {
-                        System.out.println("TipoMedida inválido!");
-                    }
+                    this.scanner = new Scanner(System.in);
+                    tipoMedida = this.scanner.nextInt();
                 } catch (InputMismatchException inputMismatchException) {
                     System.out.println("Caracter informado não corresponde a um número, tente novamente!");
+                }
+                if (tipoMedida >= 0 && tipoMedida < TipoMedida.values().length) {
+                    isNumeroInvalido = false;
+                } else {
+                    System.out.println("Tipo de medida inválido!");
+                    System.out.println("");
                 }
             }
             TipoMedida tipoMedidaIngrediente = TipoMedida.values()[tipoMedida];
@@ -128,7 +127,8 @@ public class NovaReceitaView {
 
     private String getTextoValido(String pergunta) {
         System.out.println(pergunta);
-        String nome = new Scanner(System.in).nextLine();
+        this.scanner = new Scanner(System.in);
+        String nome = this.scanner.nextLine();
         if (nome.isBlank()) {
             System.out.println("Texto inválido!");
             return getTextoValido(pergunta);
@@ -140,16 +140,17 @@ public class NovaReceitaView {
         boolean isNumeroInvalido = true;
         int numero = 0;
         while (isNumeroInvalido) {
+            System.out.println(pergunta);
             try {
-                System.out.println(pergunta);
-                numero = new Scanner(System.in).nextInt();
-                if (numero > 0) {
-                    isNumeroInvalido = false;
-                } else {
-                    System.out.println("Tente um valor maior que Zero!");
-                }
+                this.scanner = new Scanner(System.in);
+                numero = this.scanner.nextInt();
             } catch (InputMismatchException inputMismatchException) {
                 System.out.println("Caracter informado não corresponde a um número, tente novamente!");
+            }
+            if (numero > 0) {
+                isNumeroInvalido = false;
+            } else {
+                System.out.println("Tente um valor maior que Zero!");
             }
         }
         return numero;
@@ -159,16 +160,17 @@ public class NovaReceitaView {
         boolean isNumeroInvalido = true;
         double numero = 0;
         while (isNumeroInvalido) {
+            System.out.println(mensagem);
             try {
-                System.out.println(mensagem);
-                numero = new Scanner(System.in).nextDouble();
-                if (numero > 0) {
-                    isNumeroInvalido = false;
-                } else {
-                    System.out.println("Tente um valor maior que Zero!");
-                }
+                this.scanner = new Scanner(System.in);
+                numero = this.scanner.nextDouble();
             } catch (InputMismatchException inputMismatchException) {
                 System.out.println("Caracter informado não corresponde a um número, tente novamente!");
+            }
+            if (numero > 0) {
+                isNumeroInvalido = false;
+            } else {
+                System.out.println("Tente um valor maior que Zero!");
             }
         }
         return numero;
